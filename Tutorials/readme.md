@@ -4,3 +4,9 @@ These tutorials are adapted from the brilliant [Adafruit CircuitPython Bundle re
 
 ## DisplayImage
 The basic image display tutorial to present an unscaled image on the display.
+
+## DisplayText
+Displays "Hello World!" on the display.
+
+## PrintCO2
+Prints the CO2 PPM, temperature, and humidity to the serial output (print statements).
