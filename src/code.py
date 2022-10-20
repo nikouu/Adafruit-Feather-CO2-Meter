@@ -6,8 +6,26 @@ import terminalio
 import adafruit_il0373
 import adafruit_scd4x
 from adafruit_display_text import label
+from adafruit_display_shapes.rect import Rect
+from adafruit_bitmap_font import bitmap_font
+
+def get_co2_wording(value):
+    if value < 800:
+        return "GOOD"
+    elif value < 1200:
+        return "FAIR"
+    elif value < 1500:
+        return "POOR"
+    elif value < 2000:
+        return "GRIM"
+    else:
+        return "DIRE"
+
 
 displayio.release_displays()
+
+font_name = "/fonts/Verdana-Bold-18.bdf"
+font = bitmap_font.load_font(font_name)
 
 spi = busio.SPI(board.SCK, board.MOSI)  # Uses SCK and MOSI
 epd_cs = board.D9
@@ -66,6 +84,7 @@ while True:
     temperature = scd4x.temperature
     humidity = scd4x.relative_humidity
 
+    """
     co2_text_group = displayio.Group(scale=1, x=10, y=0)
     co2_text = "CO2: %d ppm" % cO2Level
     co2_text_area = label.Label(terminalio.FONT, text=co2_text, color=FOREGROUND_COLOR)
@@ -83,7 +102,47 @@ while True:
     humidity_text_area = label.Label(terminalio.FONT, text=humidity_text, color=FOREGROUND_COLOR)
     humidity_text_group.append(humidity_text_area)  # Add this text to the text group
     g.append(humidity_text_group)
+    """
+
+    co2_background_rect = Rect(2, 2, 189, 124, fill=DARKGREY, outline=0x0, stroke=0)
+    g.append(co2_background_rect)
+
+    temperature_background_rect = Rect(193, 2, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
+    g.append(temperature_background_rect)
+
+    humidity_background_rect = Rect(193, 65, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
+    g.append(humidity_background_rect) 
+
+    
+    co2_value_text_group = displayio.Group(scale=3, x=27, y=90)
+    co2_value_text = "%d ppm" % cO2Level
+    co2_value_text_area = label.Label(terminalio.FONT, text=co2_value_text, color=WHITE)
+    co2_value_text_group.append(co2_value_text_area)  # Add this text to the text group
+    g.append(co2_value_text_group)    
+    
+    temperature_text_group = displayio.Group(scale=3, x=199, y=30)
+    temperature_text = "%0.1fC" % temperature
+    temperature_text_area = label.Label(terminalio.FONT, text=temperature_text, color=WHITE)
+    temperature_text_group.append(temperature_text_area)  # Add this text to the text group
+    g.append(temperature_text_group)    
+    
+    humidity_text_group = displayio.Group(scale=3, x=199, y=90)
+    humidity_text = "%0.1f%%" % humidity
+    humidity_text_area = label.Label(terminalio.FONT, text=humidity_text, color=WHITE)
+    humidity_text_group.append(humidity_text_area)  # Add this text to the text group
+    g.append(humidity_text_group)
+    
+    co2_text_group = displayio.Group(scale=2, x=25, y=35)
+    #co2_text = "CO2: %d ppm" % cO2Level
+    co2_text = "GOOD"
+    co2_text_area = label.Label(font, text=get_co2_wording(cO2Level), color=WHITE)
+    co2_text_group.append(co2_text_area)  # Add this text to the text group
+    g.append(co2_text_group)
 
     display.show(g)
     display.refresh()	
-    time.sleep(180)
+    time.sleep(270)
+    
+    
+
+    
