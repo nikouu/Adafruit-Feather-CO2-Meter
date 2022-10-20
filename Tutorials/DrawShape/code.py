@@ -14,7 +14,12 @@ import board
 import displayio
 import terminalio
 import adafruit_il0373
-from adafruit_display_text import label
+from adafruit_display_shapes.rect import Rect
+from adafruit_display_shapes.circle import Circle
+from adafruit_display_shapes.roundrect import RoundRect
+from adafruit_display_shapes.triangle import Triangle
+from adafruit_display_shapes.line import Line
+from adafruit_display_shapes.polygon import Polygon
 
 displayio.release_displays()
 
@@ -25,7 +30,8 @@ epd_dc = board.D10
 
 BLACK = 0x000000
 WHITE = 0xFFFFFF
-RED = 0xFF0000
+LIGHTGREY = 0x999999
+DARKGREY = 0x666666
 
 FOREGROUND_COLOR = BLACK
 BACKGROUND_COLOR = WHITE
@@ -57,19 +63,42 @@ background_bitmap = displayio.Bitmap(WIDTH, HEIGHT, 1)
 palette = displayio.Palette(1)
 palette[0] = BACKGROUND_COLOR
 
-# Create a Tilegrid with the background and put in the displayio group
+# Create a  Tilegrid with the background and put in the displayio group
 t = displayio.TileGrid(background_bitmap, pixel_shader=palette)
 g.append(t)
 
-# Draw simple text using the built-in font into a displayio group
-text_group = displayio.Group(scale=2, x=40, y=40)
-text = "Hello World!"
-text_area = label.Label(terminalio.FONT, text=text, color=FOREGROUND_COLOR)
-text_group.append(text_area)  # Add this text to the text group
-g.append(text_group)
+# Draw star
+polygon = Polygon(
+    [
+        (255, 40),
+        (262, 62),
+        (285, 62),
+        (265, 76),
+        (275, 100),
+        (255, 84),
+        (235, 100),
+        (245, 76),
+        (225, 62),
+        (248, 62),
+    ],
+    outline=BLACK,
+)
+g.append(polygon)
 
-rect = Rect(80, 20, 41, 41, fill=BLACK)
+triangle = Triangle(170, 20, 140, 90, 210, 100, fill=LIGHTGREY, outline=BLACK)
+g.append(triangle)
+
+rect = Rect(80, 20, 41, 41, fill=LIGHTGREY, outline=DARKGREY, stroke=6)
 g.append(rect)
+
+circle = Circle(100, 100, 20, fill=WHITE, outline=BLACK)
+g.append(circle)
+
+rect2 = Rect(70, 85, 60, 30, outline=0x0, stroke=3)
+g.append(rect2)
+
+roundrect = RoundRect(10, 10, 61, 51, 10, fill=DARKGREY, outline=BLACK, stroke=6)
+g.append(roundrect)
 
 # Place the display group on the screen
 display.show(g)
