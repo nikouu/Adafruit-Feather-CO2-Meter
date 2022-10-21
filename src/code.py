@@ -84,26 +84,6 @@ while True:
     temperature = scd4x.temperature
     humidity = scd4x.relative_humidity
 
-    """
-    co2_text_group = displayio.Group(scale=1, x=10, y=0)
-    co2_text = "CO2: %d ppm" % cO2Level
-    co2_text_area = label.Label(terminalio.FONT, text=co2_text, color=FOREGROUND_COLOR)
-    co2_text_group.append(co2_text_area)  # Add this text to the text group
-    g.append(co2_text_group)
-
-    temperature_text_group = displayio.Group(scale=1, x=40, y=50)
-    temperature_text = "Temperature: %0.1f *C" % temperature
-    temperature_text_area = label.Label(terminalio.FONT, text=temperature_text, color=FOREGROUND_COLOR)
-    temperature_text_group.append(temperature_text_area)  # Add this text to the text group
-    g.append(temperature_text_group)
-
-    humidity_text_group = displayio.Group(scale=1, x=80, y=100)
-    humidity_text = "Humidity: %0.1f %%" % humidity
-    humidity_text_area = label.Label(terminalio.FONT, text=humidity_text, color=FOREGROUND_COLOR)
-    humidity_text_group.append(humidity_text_area)  # Add this text to the text group
-    g.append(humidity_text_group)
-    """
-
     co2_background_rect = Rect(2, 2, 189, 124, fill=DARKGREY, outline=0x0, stroke=0)
     g.append(co2_background_rect)
 
@@ -112,7 +92,6 @@ while True:
 
     humidity_background_rect = Rect(193, 65, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
     g.append(humidity_background_rect) 
-
     
     co2_value_text_group = displayio.Group(scale=3, x=27, y=90)
     co2_value_text = "%d ppm" % cO2Level
@@ -142,7 +121,3 @@ while True:
     display.show(g)
     display.refresh()	
     time.sleep(270)
-    
-    
-
-    
