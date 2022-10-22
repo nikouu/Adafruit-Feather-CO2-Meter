@@ -21,6 +21,11 @@ def get_co2_wording(value):
     else:
         return "DIRE"
 
+def create_text_group(x, y, font, text, scale, colour):
+    text_group = displayio.Group(scale=scale, x=x, y=y)
+    text_area = label.Label(font, text=text, color=colour)
+    text_group.append(text_area)
+    return text_group
 
 displayio.release_displays()
 
