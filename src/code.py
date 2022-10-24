@@ -125,4 +125,4 @@ while True:
 
     display.show(g)
     display.refresh()	
-    time.sleep(270)
+    time.sleep(300)
