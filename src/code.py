@@ -10,7 +10,11 @@ from adafruit_display_shapes.rect import Rect
 from adafruit_bitmap_font import bitmap_font
 
 def get_co2_wording(value):
-    if value < 800:
+    if value == 69:
+        return "NICE"
+    elif value == 420:
+        return "BlAZE"
+    elif value < 800:
         return "GOOD"
     elif value < 1200:
         return "FAIR"
