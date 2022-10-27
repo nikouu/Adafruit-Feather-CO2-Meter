@@ -29,14 +29,14 @@ Create a carbon dioxide meter with an Adafruit RP2040, a 2.9" eInk display, a SC
 #### Power saving with a deep sleep
 
 
-The battery lasts about 12 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. 
+The battery lasts about 12 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
 
-| Scenario | Description                    | Reading | Notes                                                                 |
-| -------- | ------------------------------ | ------- | --------------------------------------------------------------------- |
-| 1        | Blinking LED, nothing attached |         |                                                                       |
-| 2        | Blinking LED, display          |         | The same as scenario 1, which makes sense, and which is why I ♥ eInk |
-| 3        | Blinking LED, display, SCD-40  |         | Pretty much the same as scenario 1, maybe a smidge more at times      |
-| 4        | Stable release code            |         | A smidge more again, but with some big spikes (see further down)      |
+| Scenario   | Description                                                                   | Reading     | Notes                                                                           |
+| ---------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
+| Baseline 1 | Blinking LED, nothing attached                                                | 0.21W-0.23W | Our absolute baseline                                                           |
+| Baseline 2 | Blinking LED, display attached (nothing displaying)                           | 0.21W-0.23W |                                                                                 |
+| Baseline 3 | Blinking LED, display attached (nothing displaying), SCD-40 (nothing reading) | 0.21W-0.25W |                                                                                 |
+| Baseline 4 | Stable release code                                                           | 0.23W-0.74W | Big spikes (more on that below), otherwise about the same as previous scenarios |
 
 *Note: These do not describe the slight range of power consumption but they are readings of the most usual values*
 
@@ -48,31 +48,63 @@ I ran some tests (which are in the Tutorials/DeepSleep folder) for deep sleeps. 
 
 | Scenario | Description                                | Reading     | Notes                                                                                                                  |
 | -------- | ------------------------------------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 1        | `time.sleep()`                             | 0.21W-0.23W |                                                                                                                        |
-| 2        | `alarm.light_sleep_until_alarms()`         | 0.17W-0.25W | But more often around 0.17W-0.23W                                                                                      |
-| 3        | `alarm.exit_and_deep_sleep_until_alarms()` | 0.11W-0.23W | Both: <ol><li>I did see it hit 0W a couple of times</li><li>The RGB NeoPixel also fires due to it booting up</li></ol> |
+| Sleep 1  | `time.sleep()`                             | 0.21W-0.23W |                                                                                                                        |
+| Sleep 2  | `alarm.light_sleep_until_alarms()`         | 0.17W-0.25W | But more often around 0.17W-0.23W                                                                                      |
+| Sleep 3  | `alarm.exit_and_deep_sleep_until_alarms()` | 0.11W-0.23W | Both: <ol><li>I did see it hit 0W a couple of times</li><li>The RGB NeoPixel also fires due to it booting up</li></ol> |
 
 *Note: Test when connected to a power supply, and not PC as the board will not actively sleep when connected to a host computer.*
 
+The deep sleep looks like what we want. 
+| Scenario     | Description                                        | Reading     | Notes                                                              |
+| ------------ | -------------------------------------------------- | ----------- | ------------------------------------------------------------------ |
+| Efficiency 1 | Stable release code with improved power efficiency | 0.13W-0.64W | A good improvement but with the same big spikes (see further down) |
 
-Every 3-5 seconds, the SCD-40 sensor does a reading regardless of whether the values will be read or not. This produces a little spike is power usage as seen below:
+#### Power saving with turning off the sensor
 
-| Scenario      | Reading                         |
-| ------------- | ------------------------------- |
-| Regular usage | ![](images%5Cregular-usage.jpg) |
-| Wattage spike | ![](images%5Cwattage-spike.jpg) |
+Spike time. Every 3-5 seconds as it seems the SCD-40 sensor does a reading regardless of whether the values will be read or not. This looks like:
 
-*The reader in the images is the [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232).*
+![](images%5Cspike.webp)
 
+*Note: The display on the reader presents averages between updates. It may not show the proper spike on each display update due to this.*
 
+Notice that these spikes did not happen in scenario Baseline 3 even with the sensor connected - they only started happening in Baseline 4 when the sensor has been activated. We can prove this by using the same blink code as Baseline 1, but added in the start measurement code for the sensor from Baseline 4: 
 
+```python
+import time
+import alarm
+import board
+import digitalio
+import adafruit_scd4x
 
+led = digitalio.DigitalInOut(board.LED)
+led.direction = digitalio.Direction.OUTPUT
 
+i2c = board.I2C()
+scd4x = adafruit_scd4x.SCD4X(i2c)
+scd4x.start_periodic_measurement()
 
+while True:
+    led.value = True
+    time.sleep(1)
+    led.value = False
 
+    time.sleep(3)
+```
 
+| Scenario   | Description                                         | Reading     | Notes |
+| ---------- | --------------------------------------------------- | ----------- | ----- |
+| Baseline 5 | Blinking LED, no display attached, SCD-40 activated | 0.23W-0.71W |       |
 
+Nailed it. Confirmed that the sensor measurements need to be kicked off before we see the power usage spikes. 
 
-#### Can we turn off the sensor when not in use?
+It makes sense that if there is a start then there should be a stop. And there is! [`stop_periodic_measurement()`](https://docs.circuitpython.org/projects/scd4x/en/latest/api.html#adafruit_scd4x.SCD4X.stop_periodic_measurement) is the exact call we're looking for. So the code will now:
 
-The sensor uses the on-board STEMMA QT connector. 
+1. Only start a measurement just before needing the value
+1. Read and store the result
+1. Immediately stop the measurement
+
+So let's see what that looks like:
+
+| Scenario     | Description                        | Reading     | Notes                                                              |
+| ------------ | ---------------------------------- | ----------- | ------------------------------------------------------------------ |
+| Efficiency 2 | Efficiency 1 + power spike removal | 0.13W-0.64W |  |
