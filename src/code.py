@@ -75,7 +75,6 @@ background_bitmap = displayio.Bitmap(WIDTH, HEIGHT, 1)
 
 while True:
     g = displayio.Group()
-    # Map colors in a palette
     palette = displayio.Palette(1)
     palette[0] = BACKGROUND_COLOR
 
