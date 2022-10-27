@@ -43,7 +43,7 @@ epd_dc = board.D10
 
 i2c = board.I2C()
 scd4x = adafruit_scd4x.SCD4X(i2c)
-scd4x.start_periodic_measurement()
+
 
 BLACK = 0x000000
 WHITE = 0xFFFFFF
@@ -85,12 +85,15 @@ cO2Level = 0
 temperature = 0.0
 humidity = 0.0
 
+scd4x.start_periodic_measurement()
 while not scd4x.data_ready:
     time.sleep(1)
 
 cO2Level = scd4x.CO2
 temperature = scd4x.temperature
 humidity = scd4x.relative_humidity
+
+scd4x.stop_periodic_measurement()
 
 co2_background_rect = Rect(2, 2, 189, 124, fill=DARKGREY, outline=0x0, stroke=0)
 g.append(co2_background_rect)
