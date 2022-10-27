@@ -38,34 +38,34 @@ The 400mAh battery lasts (very) approximately 6 hours with the first stable rele
 | Baseline 3 | Blinking LED, display attached (nothing displaying), SCD-40 (nothing reading) | 0.21W-0.25W |                                                                                 |
 | Baseline 4 | Stable release code                                                           | 0.23W-0.74W | Big spikes (more on that below), otherwise about the same as previous scenarios |
 
-*Note: These do not describe the slight range of power consumption but they are readings of the most usual values*
-
 Now that we have baseline measurements, it's time to optimise! 
 
-Let's deal with the easy stuff: Busy waits. I love optimising things (self plug: [Shrinking a Self-Contained .NET 6 Wordle-Clone Executable](https://www.nikouusitalo.com/blog/shrinking-a-self-contained-net-6-wordle-clone-executable/)) and there's a whole heap of ways for programs to sleep across different languages. I suspect that in CircuitPython that the `time.sleep()` call might be a bit busy in the background during the wait period. Doing some digging, it turns out we can use alarms instead of sleeps. I picked up on this fantastic tutorial called [Deep Sleep with CircuitPython](https://learn.adafruit.com/deep-sleep-with-circuitpython/alarms-and-sleep) which explained the different types of sleep in CircuitPython. 
+Let's deal with the easy stuff: Busy waits. I love optimising things (self plug: [Shrinking a Self-Contained .NET 6 Wordle-Clone Executable](https://www.nikouusitalo.com/blog/shrinking-a-self-contained-net-6-wordle-clone-executable/)) and there's a whole heap of ways for programs to sleep across different languages. I suspect that in CircuitPython that the `time.sleep()` call might be a bit busy in the background. Doing some digging, it turns out we can use alarms instead of sleeps. I picked up on this fantastic tutorial called [Deep Sleep with CircuitPython](https://learn.adafruit.com/deep-sleep-with-circuitpython/alarms-and-sleep) which explained the different types of sleep in CircuitPython. 
 
 I ran some tests (which are in the Tutorials/DeepSleep folder) for deep sleeps. The test case was a blink based on the tutorial and here are the results:
 
 | Scenario | Description                                | Reading     | Notes                                                                                                                  |
 | -------- | ------------------------------------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Sleep 1  | `time.sleep()`                             | 0.21W-0.23W |                                                                                                                        |
+| Sleep 1  | `time.sleep()`                             | 0.21W-0.23W | This one is in the Blink folder                                                                                        |
 | Sleep 2  | `alarm.light_sleep_until_alarms()`         | 0.17W-0.25W | But more often around 0.17W-0.23W                                                                                      |
 | Sleep 3  | `alarm.exit_and_deep_sleep_until_alarms()` | 0.11W-0.23W | Both: <ol><li>I did see it hit 0W a couple of times</li><li>The RGB NeoPixel also fires due to it booting up</li></ol> |
 
 *Note: Test when connected to a power supply, and not PC as the board will not actively sleep when connected to a host computer.*
 
-The deep sleep looks like what we want. 
+The deep sleep looks like what we want. So let's apply it to the stable release:
 | Scenario     | Description                                        | Reading     | Notes                                                              |
 | ------------ | -------------------------------------------------- | ----------- | ------------------------------------------------------------------ |
 | Efficiency 1 | Stable release code with improved power efficiency | 0.13W-0.64W | A good improvement but with the same big spikes (see further down) |
 
-Readings from the digital tester and some back of the envelope maths, the battery should last around 8 hours and 10 minutes.
+The average usage has dropped by about 0.1W but the spikes remain.
+
+The readings from the digital tester with some back of the envelope maths, the battery should last around 8 hours and 10 minutes.
 
 #### Power saving with turning off the sensor
 
 Spike time. Every 3-5 seconds as it seems the SCD-40 sensor does a reading regardless of whether the values will be read or not. This looks like:
 
-![](images%5Cspike.webp)
+![](images/spike.webp)
 
 *Note: The display on the reader presents averages between updates. It may not show the proper spike on each display update due to this.*
 
@@ -111,4 +111,4 @@ So let's see what that looks like:
 | ------------ | ---------------------------------- | ----------- | --------------------------------------------------------------------- |
 | Efficiency 2 | Efficiency 1 + power spike removal | 0.11W-0.15W | Then with the spike to 0.71W at the 5 minute mark to do a single read |
 
-Then with extra readings from the digital tester and some back of the envelope maths, the battery should last around 12 hours and 40 minutes.
+The readings from the digital tester with some back of the envelope maths, the battery should last around 12 hours and 40 minutes.
