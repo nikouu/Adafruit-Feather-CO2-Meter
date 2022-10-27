@@ -29,7 +29,7 @@ Create a carbon dioxide meter with an Adafruit RP2040, a 2.9" eInk display, a SC
 #### Power saving with a deep sleep
 
 
-The battery lasts about 12 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
+The 400mAh battery lasts (very) approximately 6 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
 
 | Scenario   | Description                                                                   | Reading     | Notes                                                                           |
 | ---------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
@@ -58,6 +58,8 @@ The deep sleep looks like what we want.
 | Scenario     | Description                                        | Reading     | Notes                                                              |
 | ------------ | -------------------------------------------------- | ----------- | ------------------------------------------------------------------ |
 | Efficiency 1 | Stable release code with improved power efficiency | 0.13W-0.64W | A good improvement but with the same big spikes (see further down) |
+
+Readings from the digital tester and some back of the envelope maths, the battery should last around 8 hours and 10 minutes.
 
 #### Power saving with turning off the sensor
 
@@ -105,6 +107,8 @@ It makes sense that if there is a start then there should be a stop. And there i
 
 So let's see what that looks like:
 
-| Scenario     | Description                        | Reading     | Notes                                                              |
-| ------------ | ---------------------------------- | ----------- | ------------------------------------------------------------------ |
-| Efficiency 2 | Efficiency 1 + power spike removal | 0.13W-0.64W |  |
+| Scenario     | Description                        | Reading     | Notes                                                                 |
+| ------------ | ---------------------------------- | ----------- | --------------------------------------------------------------------- |
+| Efficiency 2 | Efficiency 1 + power spike removal | 0.11W-0.15W | Then with the spike to 0.71W at the 5 minute mark to do a single read |
+
+Then with extra readings from the digital tester and some back of the envelope maths, the battery should last around 12 hours and 40 minutes.
