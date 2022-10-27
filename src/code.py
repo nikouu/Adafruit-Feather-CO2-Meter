@@ -1,4 +1,5 @@
 import time
+import alarm
 import busio
 import board
 import displayio
@@ -73,53 +74,54 @@ display = adafruit_il0373.IL0373(
 
 background_bitmap = displayio.Bitmap(WIDTH, HEIGHT, 1)
 
-while True:
-    g = displayio.Group()
-    palette = displayio.Palette(1)
-    palette[0] = BACKGROUND_COLOR
+g = displayio.Group()
+palette = displayio.Palette(1)
+palette[0] = BACKGROUND_COLOR
 
-    t = displayio.TileGrid(background_bitmap, pixel_shader=palette)
-    g.append(t)
+t = displayio.TileGrid(background_bitmap, pixel_shader=palette)
+g.append(t)
 
-    cO2Level = 0
-    temperature = 0.0
-    humidity = 0.0
+cO2Level = 0
+temperature = 0.0
+humidity = 0.0
 
-    while not scd4x.data_ready:
-        time.sleep(1)
+while not scd4x.data_ready:
+    time.sleep(1)
 
-    cO2Level = scd4x.CO2
-    temperature = scd4x.temperature
-    humidity = scd4x.relative_humidity
+cO2Level = scd4x.CO2
+temperature = scd4x.temperature
+humidity = scd4x.relative_humidity
 
-    co2_background_rect = Rect(2, 2, 189, 124, fill=DARKGREY, outline=0x0, stroke=0)
-    g.append(co2_background_rect)
+co2_background_rect = Rect(2, 2, 189, 124, fill=DARKGREY, outline=0x0, stroke=0)
+g.append(co2_background_rect)
 
-    temperature_background_rect = Rect(193, 2, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
-    g.append(temperature_background_rect)
+temperature_background_rect = Rect(193, 2, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
+g.append(temperature_background_rect)
 
-    humidity_background_rect = Rect(193, 65, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
-    g.append(humidity_background_rect) 
+humidity_background_rect = Rect(193, 65, 101, 61, fill=DARKGREY, outline=0x0, stroke=0)
+g.append(humidity_background_rect) 
 
-    co2_value_text_group = create_text_group(27, 90, terminalio.FONT, "%d ppm" % cO2Level, 3, WHITE)
-    g.append(co2_value_text_group)    
+co2_value_text_group = create_text_group(27, 90, terminalio.FONT, "%d ppm" % cO2Level, 3, WHITE)
+g.append(co2_value_text_group)    
 
-    temperature_text_group = create_text_group(199, 30, terminalio.FONT, "%0.1fC" % temperature, 3, WHITE)
-    g.append(temperature_text_group)    
-    
-    humidity_text_group = displayio.Group(scale=3, x=199, y=90)
-    humidity_text = "%0.1f%%" % humidity
-    humidity_text_area = label.Label(terminalio.FONT, text=humidity_text, color=WHITE)
-    humidity_text_group.append(humidity_text_area)  # Add this text to the text group
-    g.append(humidity_text_group)
-    
-    co2_text_group = displayio.Group(scale=2, x=25, y=35)
-    #co2_text = "CO2: %d ppm" % cO2Level
-    co2_text = "GOOD"
-    co2_text_area = label.Label(font, text=get_co2_wording(cO2Level), color=WHITE)
-    co2_text_group.append(co2_text_area)  # Add this text to the text group
-    g.append(co2_text_group)
+temperature_text_group = create_text_group(199, 30, terminalio.FONT, "%0.1fC" % temperature, 3, WHITE)
+g.append(temperature_text_group)    
 
-    display.show(g)
-    display.refresh()	
-    time.sleep(300)
+humidity_text_group = displayio.Group(scale=3, x=199, y=90)
+humidity_text = "%0.1f%%" % humidity
+humidity_text_area = label.Label(terminalio.FONT, text=humidity_text, color=WHITE)
+humidity_text_group.append(humidity_text_area)  # Add this text to the text group
+g.append(humidity_text_group)
+
+co2_text_group = displayio.Group(scale=2, x=25, y=35)
+#co2_text = "CO2: %d ppm" % cO2Level
+co2_text = "GOOD"
+co2_text_area = label.Label(font, text=get_co2_wording(cO2Level), color=WHITE)
+co2_text_group.append(co2_text_area)  # Add this text to the text group
+g.append(co2_text_group)
+
+display.show(g)
+display.refresh()	
+
+time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + 300)
+alarm.exit_and_deep_sleep_until_alarms(time_alarm)
