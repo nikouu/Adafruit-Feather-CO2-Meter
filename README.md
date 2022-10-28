@@ -2,14 +2,25 @@
 
 A simple, small, handheld carbon dioxide meter, temperature meter, and humidity meter built with an Adafruit RP2040, a 2.9" eInk display, a SCD-40 CO2 sensor, and CircuitPython 7.
 
-
-
-2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I feel like I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!"  
-
 ![](images/preview.webp)
 
-*It's battery powered!*
+*It's also battery powered!*
 
+2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I feel like I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!" 
+
+![](images/displaylegend.jpg)
+
+
+
+## How to use this repository
+
+### Tutorials
+The Tutorials folder contains lift and shift code to do the exact same steps I did. They include the correct binaries too so it just works straight away. There's also a readme there to go over what each of the folders contain.
+
+### Running the code
+Assuming you have all the components above, the **src folder** has all you need to lift and shift the code and binaries to your Feather. 
+
+The version of the code in the src folder is the most up to date and includes any of the newest features listed in this readme.
 
 ## Components
 
@@ -24,14 +35,6 @@ A simple, small, handheld carbon dioxide meter, temperature meter, and humidity 
 | Total                                                                                       |     $93.10 |
 
 The only soldering needed is to attach the given headers onto the RP2040.
-
-## How to use this repository
-
-### Tutorials
-The Tutorials folder contains lift and shift code to do the exact same steps I did. They include the correct binaries too so it just works straight away. There's also a readme there to go over what each of the folders contain.
-
-### Running the code
-Assuming you have all the components above, the src folder has all you need to lift and shift the code and binaries to your Feather.
 
 ## Development
 
