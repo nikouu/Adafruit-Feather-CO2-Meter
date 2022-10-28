@@ -55,4 +55,4 @@ with open("/display-ruler.bmp", "rb") as f:
 
     print("refreshed")
 
-    time.sleep(120)
+    time.sleep(180)
