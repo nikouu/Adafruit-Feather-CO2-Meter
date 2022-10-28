@@ -31,19 +31,60 @@ Assuming you have all the components above, the src folder has all you need to l
 
 ## Development
 
-These are the milestones of the project. 
+Project milestones.
 
 ### Blink LED
 
-
+First up is a hello world. Originally I followed this [Blink tutorial](https://learn.adafruit.com/adafruit-feather-rp2040-pico/blink) to get off the ground. It worked straight away and it was the cleaest code of this project - it's all downhill from here.
 
 ### Running display
 
+I hadn't soldered for a long time and it showed when I tried to solder the header pins to the Feather RP2040 they were WONKY. Below is an artist's rendition of what the pins looked like before correcting:
+
+![](images/badsoldering.jpg)
+
+Then when I finally got them to line up and ran the example code from Adafruit...
+
+![](images/badlookingdisplay.jpg)
+
+To which I realised I was running the entirely wrong code. I copied the code for a different eInk display 🤦‍♀️
+
+Once I sorted out the very basics of reading comprehension, I got to the two main goals of this stage:
+1. Get text on screen
+1. Get shapes on screen
+
+The example of shapes:
+
+![](images/shapes.jpg)
+
+Why shapes? Because I had a design in mind for the first stable release of different areas on screen representing the different data from the sensor, and rectangles can be what makes the areas obvious.
+
 ### Getting CO2 values
+
+Taking the sample code for it was easy and it showed up exactly as expected in the Mu editor serial output window.
+![](images/replvalues.jpg)
 
 ### Proof of concept
 
+I need two things:
+1. Get the readings
+1. Throw them on screen
+
+![](images/poc.jpg)
+
 ### First Stable release
+
+Taking the previous milestone and making it presentable. This pulls together all the previous work.
+
+| Position | Image                 |
+| -------- | --------------------- |
+| Front    | ![](images/front.jpg) |
+| Top      | ![](images/top.jpg)   |
+| Back     | ![](images/back.jpg)  |
+| Left     | ![](images/left.jpg)  |
+| Right    | ![](images/right.jpg) |
+
+Used a single spacer to both hold the sensor to the RP2040 and as a makeshift kickstand for the back. It works pretty well!
 
 ### Power efficiency Improvements
 
