@@ -2,9 +2,13 @@
 
 A simple, small, handheld carbon dioxide meter, temperature meter, and humidity meter built with an Adafruit RP2040, a 2.9" eInk display, a SCD-40 CO2 sensor, and CircuitPython 7.
 
+
+
 2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I feel like I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!"  
 
+![](images/preview.webp)
 
+*It's battery powered!*
 
 
 ## Components
@@ -85,6 +89,10 @@ Taking the previous milestone and making it presentable. This pulls together all
 | Right    | ![](images/right.jpg) |
 
 Used a single spacer to both hold the sensor to the RP2040 and as a makeshift kickstand for the back. It works pretty well!
+
+And for a preview of other CO2 ratings with expert photography:
+
+![](images/otherstatuses.jpg)
 
 ### Power efficiency Improvements
 
