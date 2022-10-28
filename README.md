@@ -1,35 +1,56 @@
-# Adafruit-Feather-CO2-meter
-Create a carbon dioxide meter with an Adafruit RP2040, a 2.9" eInk display, a SCD-40 CO2 sensor, and CircuitPython.
+# Adafruit Feather CO2 Meter
+
+A simple, small, handheld carbon dioxide meter, temperature meter, and humidity meter built with an Adafruit RP2040, a 2.9" eInk display, a SCD-40 CO2 sensor, and CircuitPython 7.
+
+2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I feel like I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!"  
+
+
+
 
 ## Components
 
-| Item                                                                                        | Notes                                                             |
-| ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [Feather RP2040](https://www.adafruit.com/product/4884)                                     |                                                                   |
-| [Adafruit 2.9" Grayscale eInk](https://www.adafruit.com/product/4777)                       | [Docs](https://docs.circuitpython.org/projects/il0373/en/latest/) |
-| [Lithium Ion Polymer Battery 400mAh](https://www.adafruit.com/product/3898)                 |                                                                   |
-| [SCD-40 - True CO2, Temperature and Humidity Sensor](https://www.adafruit.com/product/5187) |                                                                   |
-| [STEMMA QT / Qwiic JST SH 4-pin Cable](https://www.adafruit.com/product/4210)               |                                                                   |
-| [Brass M2.5 Standoffs 16mm tall](https://www.adafruit.com/product/2337)                     |                                                                   |
+| Item                                                                                        | Cost (USD) |
+| ------------------------------------------------------------------------------------------- | ---------: |
+| [Feather RP2040](https://www.adafruit.com/product/4884)                                     |     $11.95 |
+| [Adafruit 2.9" Grayscale eInk](https://www.adafruit.com/product/4777)                       |     $22.50 |
+| [Lithium Ion Polymer Battery 400mAh](https://www.adafruit.com/product/3898)                 |      $6.95 |
+| [SCD-40 - True CO2, Temperature and Humidity Sensor](https://www.adafruit.com/product/5187) |     $49.50 |
+| [STEMMA QT / Qwiic JST SH 4-pin Cable](https://www.adafruit.com/product/4210)               |      $0.95 |
+| [Brass M2.5 Standoffs 16mm tall](https://www.adafruit.com/product/2337)                     |      $1.25 |
+| Total                                                                                       |     $93.10 |
+
+The only soldering needed is to attach the given headers onto the RP2040.
+
+## How to use this repository
+
+### Tutorials
+The Tutorials folder contains lift and shift code to do the exact same steps I did. They include the correct binaries too so it just works straight away. There's also a readme there to go over what each of the folders contain.
+
+### Running the code
+Assuming you have all the components above, the src folder has all you need to lift and shift the code and binaries to your Feather.
 
 ## Development
 
+These are the milestones of the project. 
+
 ### Blink LED
+
+
 
 ### Running display
 
 ### Getting CO2 values
 
-### First proof of concept
+### Proof of concept
 
-### Stable release
+### First Stable release
 
-### Improvements
+### Power efficiency Improvements
 
 #### Power saving with a deep sleep
 
 
-The 400mAh battery lasts (very) approximately 6 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
+The 400mAh battery lasts (very) approximately 12 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
 
 | Scenario   | Description                                                                   | Reading     | Notes                                                                           |
 | ---------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
@@ -57,19 +78,19 @@ The deep sleep looks like what we want. So let's apply it to the stable release:
 | ------------ | -------------------------------------------------- | ----------- | ------------------------------------------------------------------ |
 | Efficiency 1 | Stable release code with improved power efficiency | 0.13W-0.64W | A good improvement but with the same big spikes (see further down) |
 
-The average usage has dropped by about 0.1W but the spikes remain.
+A 0.1W drop and the spikes remain.
 
 The readings from the digital tester with some back of the envelope maths, the battery should last around 8 hours and 10 minutes.
 
-#### Power saving with turning off the sensor
+#### Power saving by turning off the sensor
 
-Spike time. Every 3-5 seconds as it seems the SCD-40 sensor does a reading regardless of whether the values will be read or not. This looks like:
+Spike time. Every 3-5 seconds as it seems the SCD-40 sensor does a reading regardless of whether the values will be read or not. Below is a quick look at the meter, note the red wattage reading on the lower left and how it spikes:
 
 ![](images/spike.webp)
 
 *Note: The display on the reader presents averages between updates. It may not show the proper spike on each display update due to this.*
 
-Notice that these spikes did not happen in scenario Baseline 3 even with the sensor connected - they only started happening in Baseline 4 when the sensor has been activated. We can prove this by using the same blink code as Baseline 1, but added in the start measurement code for the sensor from Baseline 4: 
+Notice that these spikes did not happen in scenario Baseline 3 even with the sensor connected - it only started happening in Baseline 4 when the sensor has been activated. We can prove this by using the same blink code as Baseline 1, but added in the start measurement code for the sensor from Baseline 4: 
 
 ```python
 import time
@@ -99,13 +120,13 @@ while True:
 
 Nailed it. Confirmed that the sensor measurements need to be kicked off before we see the power usage spikes. 
 
-It makes sense that if there is a start then there should be a stop. And there is! [`stop_periodic_measurement()`](https://docs.circuitpython.org/projects/scd4x/en/latest/api.html#adafruit_scd4x.SCD4X.stop_periodic_measurement) is the exact call we're looking for. So the code will now:
+In theory if there is a start then there should be a stop. And there is! [`stop_periodic_measurement()`](https://docs.circuitpython.org/projects/scd4x/en/latest/api.html#adafruit_scd4x.SCD4X.stop_periodic_measurement) is the exact call we're looking for. So the code will now:
 
 1. Only start a measurement just before needing the value
 1. Read and store the result
 1. Immediately stop the measurement
 
-So let's see what that looks like:
+Let's see what that looks like:
 
 | Scenario     | Description                        | Reading     | Notes                                                                 |
 | ------------ | ---------------------------------- | ----------- | --------------------------------------------------------------------- |
