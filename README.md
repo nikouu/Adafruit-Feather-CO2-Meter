@@ -1,12 +1,12 @@
 # Adafruit Feather CO2 Meter
 
-A simple, small, handheld carbon dioxide meter, temperature meter, and humidity meter built with an Adafruit RP2040, a 2.9" eInk display, a SCD-40 CO2 sensor, and CircuitPython 7.
+A simple, small, handheld carbon dioxide meter!
 
 ![](images/preview.webp)
 
 *It's also battery powered!*
 
-2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I feel like I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!" 
+2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!" 
 
 ![](images/displaylegend.jpg)
 
@@ -99,9 +99,6 @@ And for a preview of other CO2 ratings with expert photography:
 
 ### Power efficiency Improvements
 
-#### Power saving with a deep sleep
-
-
 The 400mAh battery lasts (very) approximately 12 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
 
 | Scenario   | Description                                                                   | Reading     | Notes                                                                           |
@@ -112,6 +109,8 @@ The 400mAh battery lasts (very) approximately 12 hours with the first stable rel
 | Baseline 4 | Stable release code                                                           | 0.23W-0.74W | Big spikes (more on that below), otherwise about the same as previous scenarios |
 
 Now that we have baseline measurements, it's time to optimise! 
+
+#### Power saving with a deep sleep
 
 Let's deal with the easy stuff: Busy waits. I love optimising things (self plug: [Shrinking a Self-Contained .NET 6 Wordle-Clone Executable](https://www.nikouusitalo.com/blog/shrinking-a-self-contained-net-6-wordle-clone-executable/)) and there's a whole heap of ways for programs to sleep across different languages. I suspect that in CircuitPython that the `time.sleep()` call might be a bit busy in the background. Doing some digging, it turns out we can use alarms instead of sleeps. I picked up on this fantastic tutorial called [Deep Sleep with CircuitPython](https://learn.adafruit.com/deep-sleep-with-circuitpython/alarms-and-sleep) which explained the different types of sleep in CircuitPython. 
 
@@ -130,7 +129,7 @@ The deep sleep looks like what we want. So let's apply it to the stable release:
 | ------------ | -------------------------------------------------- | ----------- | ------------------------------------------------------------------ |
 | Efficiency 1 | Stable release code with improved power efficiency | 0.13W-0.64W | A good improvement but with the same big spikes (see further down) |
 
-A 0.1W drop and the spikes remain.
+A ~0.1W drop and the spikes remain.
 
 The readings from the digital tester with some back of the envelope maths, the battery should last around 8 hours and 10 minutes.
 
