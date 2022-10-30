@@ -83,6 +83,12 @@ I need two things:
 
 Taking the previous milestone and making it presentable. This pulls together all the previous work.
 
+It runs as intended with a 🎵simple and clean🎵 UI. Slightly cryptic if you didn't know what the SCD-40 reads, but good enough for now. It updates every 5 minutes and takes the reading at the time of update. It might be fun to later on to do an average or perhaps some on screen graphs but a 5 minute refresh suits basic needs - especially the display which should only be refreshed every 3+ minutes to prevent damage. 
+
+It becomes obvious from the pictures below that that nothing is properly centered. No pixel counting nor proper usage of a [centered anchor](https://learn.adafruit.com/circuitpython-display_text-library/label-placement) for the text is in play. 
+
+There is no case and sensor itself is almost free and hangs on with just one corner.
+
 | Position | Image                 |
 | -------- | --------------------- |
 | Front    | ![](images/front.jpg) |
@@ -91,11 +97,13 @@ Taking the previous milestone and making it presentable. This pulls together all
 | Left     | ![](images/left.jpg)  |
 | Right    | ![](images/right.jpg) |
 
-Used a single spacer to both hold the sensor to the RP2040 and as a makeshift kickstand for the back. It works pretty well!
+That single spacer to hold the sensor to the RP2040 is used as a makeshift kickstand for the back. It works pretty well!
 
 And for a preview of other CO2 ratings with expert photography:
 
 ![](images/otherstatuses.jpg)
+
+With the stable release out of the way, it was time to begin working on improvements for the power consumption. Having worked a little bit with [Raspberry Pi Zero 2 W boards](https://www.nikouusitalo.com/blog/writing-a-net-music-discord-bot-for-a-raspberry-pi-zero-2-w-brotherman-bill/) and looking at power usage, I figured this microcontroller without a proper OS must get a lot out of the 400mAh battery... But it didn't.
 
 ### Power efficiency Improvements
 
@@ -161,7 +169,6 @@ while True:
     led.value = True
     time.sleep(1)
     led.value = False
-
     time.sleep(3)
 ```
 
