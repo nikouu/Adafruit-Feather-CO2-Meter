@@ -38,6 +38,8 @@ The only soldering needed is to attach the given headers onto the RP2040.
 
 ## Development
 
+
+
 Project milestones.
 
 ### Blink LED
@@ -190,7 +192,7 @@ Let's see what that looks like:
 | ------------ | ---------------------------------- | ----------- | --------------------------------------------------------------------- |
 | Efficiency 2 | Efficiency 1 + power spike removal | 0.11W-0.15W | Then with the spike to 0.71W at the 5 minute mark to do a single read |
 
-The readings from the digital tester with some back of the envelope maths, the battery should last around 12 hours and 40 minutes.
+After these improvements, the battery now lasts **54 hours**, or 4.5 times longer than the first stable release.
 
 ## Future ideas
 
