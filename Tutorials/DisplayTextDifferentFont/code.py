@@ -12,7 +12,6 @@ import time
 import busio
 import board
 import displayio
-import terminalio
 import adafruit_il0373
 from adafruit_display_text import label
 from adafruit_bitmap_font import bitmap_font
