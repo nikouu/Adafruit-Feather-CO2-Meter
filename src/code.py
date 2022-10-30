@@ -10,6 +10,17 @@ from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
 from adafruit_bitmap_font import bitmap_font
 
+BLACK = 0x000000
+DARKGREY = 0x666666
+LIGHTGREY = 0x999999
+WHITE = 0xFFFFFF
+
+FOREGROUND_COLOR = BLACK
+BACKGROUND_COLOR = WHITE
+
+WIDTH = 296
+HEIGHT = 128
+
 def trigger_single_sensor_measurement(scd4x):
     scd4x.start_periodic_measurement()
     while not scd4x.data_ready:
@@ -50,17 +61,6 @@ epd_dc = board.D10
 
 i2c = board.I2C()
 scd4x = adafruit_scd4x.SCD4X(i2c)
-
-BLACK = 0x000000
-WHITE = 0xFFFFFF
-LIGHTGREY = 0x999999
-DARKGREY = 0x666666
-
-FOREGROUND_COLOR = BLACK
-BACKGROUND_COLOR = WHITE
-
-WIDTH = 296
-HEIGHT = 128
 
 display_bus = displayio.FourWire(
     spi, command=epd_dc, chip_select=epd_cs, baudrate=1000000
