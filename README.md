@@ -6,11 +6,11 @@ A simple, small, handheld carbon dioxide meter!
 
 *It's also battery powered!*
 
-2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. I saw the [Aranet4](https://aranet.com/products/aranet4/) a lot but on Twitter I saw people making their own and thought "that's a fun project, I'll do it too!" 
+2021 onwards saw a surge of people using CO2 meters to help gauge indoor air quality. The [Aranet4](https://aranet.com/products/aranet4/) seemed popular but I also saw people making their own and thought "that's a fun project, I'll do it too!" 
 
 ![](images/displaylegend.jpg)
 
-
+*It totally didn't take me 8 months after buying parts to start the project...*
 
 ## How to use this repository
 
