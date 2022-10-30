@@ -1,5 +1,4 @@
 import time
-import alarm
 import board
 import digitalio
 
@@ -10,5 +9,4 @@ while True:
     led.value = True
     time.sleep(1)
     led.value = False
-
     time.sleep(3)
