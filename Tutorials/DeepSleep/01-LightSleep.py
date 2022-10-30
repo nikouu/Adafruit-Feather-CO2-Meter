@@ -1,8 +1,7 @@
-# SPDX-FileCopyrightText: 2021 Kattni Rembor for Adafruit Industries
-# SPDX-License-Identifier: MIT
-# https://learn.adafruit.com/adafruit-feather-rp2040-pico/blink
-"""CircuitPython Blink Example - the CircuitPython 'Hello, World!'"""
+# https://learn.adafruit.com/deep-sleep-with-circuitpython/alarms-and-sleep
+
 import time
+import alarm
 import board
 import digitalio
 
@@ -11,6 +10,8 @@ led.direction = digitalio.Direction.OUTPUT
 
 while True:
     led.value = True
-    time.sleep(0.5)
+    time.sleep(1)
     led.value = False
-    time.sleep(0.5)
+
+    time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + 3)
+    alarm.light_sleep_until_alarms(time_alarm)

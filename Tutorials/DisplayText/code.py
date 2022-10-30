@@ -74,3 +74,4 @@ display.show(g)
 # Refresh the display to have everything show on the display
 # NOTE: Do not refresh eInk displays more often than 180 seconds!
 display.refresh()
+
