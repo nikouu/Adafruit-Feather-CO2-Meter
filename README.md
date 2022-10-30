@@ -191,3 +191,16 @@ Let's see what that looks like:
 | Efficiency 2 | Efficiency 1 + power spike removal | 0.11W-0.15W | Then with the spike to 0.71W at the 5 minute mark to do a single read |
 
 The readings from the digital tester with some back of the envelope maths, the battery should last around 12 hours and 40 minutes.
+
+## Future ideas
+
+Maybe these would be neat to implement, maybe they won't 🔮
+
+1. Use the eInk display buttons to switch to a graph mode
+1. Add symbols to help define what each reading is
+1. Properly center all the elements
+1. Make use of the four greyscale colours
+1. Take readings every x amount of time between display refreshes to get an average
+1. Have a button push to refresh asap (as soon as it's been 3 mins since the last display refresh)
+1. Battery indicator 
+1. A way to tell whether the battery has run out on the display (currently the green LED on the sensor is the only indicator)
