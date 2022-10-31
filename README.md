@@ -20,7 +20,12 @@ A simple, small, handheld carbon dioxide meter!
 The Tutorials folder contains lift and shift code to do the exact same steps I did. They include the correct binaries too so it just works straight away. There's also a readme there to go over what each of the folders contain.
 
 ### Running the code
-Assuming you have all the components above, the **src folder** has all you need to lift and shift the code and binaries to your Feather. 
+Assuming you have all the components below, the `src` folder has all you need to lift and shift to get a working project.
+
+1. The `src\code.py` file is the code itself
+1. The `src\lib` folder has all the extra imports
+
+Copy both of these to your root `CIRCUITPY` drive and you're good to go.
 
 The version of the code in the src folder is the most up to date and includes any of the newest features listed in this readme.
 
