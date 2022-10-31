@@ -1,5 +1,7 @@
 # Adafruit Feather CO2 Meter
 
+<a href="https://www.nikouusitalo.com/how-to-build-your-own-co2-meter-with-an-adafruit-feather-and-e-ink-display/" target="blank" style="font-size:25px">📝 Read all about this project in my blog post! 📝</a>
+
 A simple, small, handheld carbon dioxide meter!
 
 ![](images/preview.webp)
@@ -36,68 +38,17 @@ The version of the code in the src folder is the most up to date and includes an
 
 The only soldering needed is to attach the given headers onto the RP2040.
 
-## Development
 
+[![Link to associated blog post](images/bloglink.jpg)](https://www.nikouusitalo.com/how-to-build-your-own-co2-meter-with-an-adafruit-feather-and-e-ink-display/)
 
+## Pictures
 
-Project milestones.
-
-### Blink LED
-
-First up is a hello world. Originally I followed this [Blink tutorial](https://learn.adafruit.com/adafruit-feather-rp2040-pico/blink) to get off the ground. It worked straight away and it was the cleaest code of this project - it's all downhill from here.
-
-### Running display
-
-I hadn't soldered for a long time and it showed when I tried to solder the header pins to the Feather RP2040 they were WONKY. Below is an artist's rendition of what the pins looked like before correcting:
-
-![](images/badsoldering.jpg)
-
-Then when I finally got them to line up and ran the example code from Adafruit...
-
-![](images/badlookingdisplay.jpg)
-
-To which I realised I was running the entirely wrong code. I copied the code for a different eInk display 🤦‍♀️
-
-Once I sorted out the very basics of reading comprehension, I got to the two main goals of this stage:
-1. Get text on screen
-1. Get shapes on screen
-
-The example of shapes:
-
-![](images/shapes.jpg)
-
-Why shapes? Because I had a design in mind for the first stable release of different areas on screen representing the different data from the sensor, and rectangles can be what makes the areas obvious.
-
-### Getting CO2 values
-
-Taking the sample code for it was easy and it showed up exactly as expected in the Mu editor serial output window.
-![](images/replvalues.jpg)
-
-### Proof of concept
-
-I need two things:
-1. Get the readings
-1. Throw them on screen
-
-![](images/poc.jpg)
-
-### First Stable release
-
-Taking the previous milestone and making it presentable. This pulls together all the previous work.
-
-It runs as intended with a 🎵simple and clean🎵 UI. Slightly cryptic if you didn't know what the SCD-40 reads, but good enough for now. It updates every 5 minutes and takes the reading at the time of update. It might be fun to later on to do an average or perhaps some on screen graphs but a 5 minute refresh suits basic needs - especially the display which should only be refreshed every 3+ minutes to prevent damage. 
-
-It becomes obvious from the pictures below that that nothing is properly centered. No pixel counting nor proper usage of a [centered anchor](https://learn.adafruit.com/circuitpython-display_text-library/label-placement) for the text is in play. 
-
-There is no case and sensor itself is almost free and hangs on with just one corner.
 
 | Position | Image                 |
 | -------- | --------------------- |
 | Front    | ![](images/front.jpg) |
 | Top      | ![](images/top.jpg)   |
 | Back     | ![](images/back.jpg)  |
-| Left     | ![](images/left.jpg)  |
-| Right    | ![](images/right.jpg) |
 
 That single spacer to hold the sensor to the RP2040 is used as a makeshift kickstand for the back. It works pretty well!
 
@@ -105,9 +56,11 @@ And for a preview of other CO2 ratings with expert photography:
 
 ![](images/otherstatuses.jpg)
 
-With the stable release out of the way, it was time to begin working on improvements for the power consumption. Having worked a little bit with [Raspberry Pi Zero 2 W boards](https://www.nikouusitalo.com/blog/writing-a-net-music-discord-bot-for-a-raspberry-pi-zero-2-w-brotherman-bill/) and looking at power usage, I figured this microcontroller without a proper OS must get a lot out of the 400mAh battery... But it didn't.
+## Fun power efficiency Improvements
 
-### Power efficiency Improvements
+After finishing version 1.0, it was time to begin working on improvements for the power consumption. Having worked a little bit with [Raspberry Pi Zero 2 W boards](https://www.nikouusitalo.com/blog/writing-a-net-music-discord-bot-for-a-raspberry-pi-zero-2-w-brotherman-bill/) and looking at power usage, I figured this microcontroller without a proper OS must get a lot out of the 400mAh battery... But it didn't.
+
+
 
 The 400mAh battery lasts (very) approximately 12 hours with the first stable release and I think it can do far better. But first, let's understand the power usage patterns. I'll be using a [Multifunctional USB Digital Tester - USB A and C](https://www.adafruit.com/product/4232) to get the readings.
 
