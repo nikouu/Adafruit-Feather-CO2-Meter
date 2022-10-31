@@ -1,6 +1,6 @@
 # Adafruit Feather CO2 Meter
 
-<a href="https://www.nikouusitalo.com/how-to-build-your-own-co2-meter-with-an-adafruit-feather-and-e-ink-display/" target="blank" style="font-size:25px">📝 Read all about this project in my blog post! 📝</a>
+<a href="https://www.nikouusitalo.com/blog/how-to-build-your-own-co2-meter-with-an-adafruit-feather-and-e-ink-display/" target="blank" style="font-size:25px">📝 Read all about this project in my blog post! 📝</a>
 
 A simple, small, handheld carbon dioxide meter!
 
@@ -39,7 +39,7 @@ The version of the code in the src folder is the most up to date and includes an
 The only soldering needed is to attach the given headers onto the RP2040.
 
 
-[![Link to associated blog post](images/bloglink.jpg)](https://www.nikouusitalo.com/how-to-build-your-own-co2-meter-with-an-adafruit-feather-and-e-ink-display/)
+[![Link to associated blog post](images/bloglink.jpg)](https://www.nikouusitalo.com/blog/how-to-build-your-own-co2-meter-with-an-adafruit-feather-and-e-ink-display/)
 
 ## Pictures
 
