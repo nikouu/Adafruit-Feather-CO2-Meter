@@ -99,7 +99,7 @@ The deep sleep looks like what we want. So let's apply it to the stable release:
 
 A ~0.1W drop and the spikes remain.
 
-The readings from the digital tester with some back of the envelope maths, the battery should last around 8 hours and 10 minutes.
+As at version 1.1 the battery lasts about 21 hours, or 1.75 time longer than version 1.0.
 
 #### Power saving by turning off the sensor
 
@@ -150,7 +150,7 @@ Let's see what that looks like:
 | ------------ | ---------------------------------- | ----------- | --------------------------------------------------------------------- |
 | Efficiency 2 | Efficiency 1 + power spike removal | 0.11W-0.15W | Then with the spike to 0.71W at the 5 minute mark to do a single read |
 
-After these improvements, the battery now lasts **54 hours**, or 4.5 times longer than the first stable release.
+After these improvements, the battery now lasts **54 hours**, or 4.5 times longer than version 1.0.
 
 ## Future ideas
 
