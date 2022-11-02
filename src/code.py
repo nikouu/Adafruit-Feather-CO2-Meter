@@ -41,6 +41,8 @@ def get_co2_wording(value):
         return "NICE"
     elif value == 420:
         return "BLAZE"
+    elif value == 666:
+        return "EVIL"
     elif value == 1337:
         return "LEET"
     elif value < 800:
