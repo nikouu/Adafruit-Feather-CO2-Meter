@@ -64,7 +64,6 @@ def create_text_group(x, y, font, text, scale, colour):
 
 displayio.release_displays()
 
-
 verdana_bold_font = bitmap_font.load_font(VERDANA_BOLD)
 
 spi = busio.SPI(board.SCK, board.MOSI)  # Uses SCK and MOSI
@@ -119,7 +118,7 @@ tile_grid.append(temperature_text_group)
 humidity_text_group = create_text_group(199, 90, terminalio.FONT, "%0.1f%%" % relative_humidity, 3, WHITE)
 tile_grid.append(humidity_text_group)
 
-co2_text_group = create_text_group(25, 35, verdana_bold_font, get_co2_wording(scd4x.CO2), 2, WHITE)
+co2_text_group = create_text_group(25, 35, verdana_bold_font, get_co2_wording(co2), 2, WHITE)
 tile_grid.append(co2_text_group)
 
 display.show(tile_grid)
