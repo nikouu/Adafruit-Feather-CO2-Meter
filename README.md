@@ -99,7 +99,7 @@ The deep sleep looks like what we want. So let's apply it to the stable release:
 
 A ~0.1W drop and the spikes remain.
 
-As at version 1.1 the battery lasts about 21 hours, or 1.75 time longer than version 1.0.
+As at version 1.1 the battery lasts about 21 hours, or 1.75 times longer than version 1.0.
 
 #### Power saving by turning off the sensor
 
