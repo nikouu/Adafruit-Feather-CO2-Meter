@@ -10,6 +10,9 @@ from adafruit_display_text import label
 from adafruit_display_shapes.rect import Rect
 from adafruit_bitmap_font import bitmap_font
 
+WIDTH = 296
+HEIGHT = 128
+
 BLACK = 0x000000
 DARKGREY = 0x666666
 LIGHTGREY = 0x999999
@@ -17,9 +20,6 @@ WHITE = 0xFFFFFF
 
 FOREGROUND_COLOR = BLACK
 BACKGROUND_COLOR = WHITE
-
-WIDTH = 296
-HEIGHT = 128
 
 VERDANA_BOLD = "/fonts/Verdana-Bold-18.bdf"
 
@@ -70,8 +70,6 @@ spi = busio.SPI(board.SCK, board.MOSI)  # Uses SCK and MOSI
 epd_cs = board.D9
 epd_dc = board.D10
 
-
-
 display_bus = displayio.FourWire(
     spi, command=epd_dc, chip_select=epd_cs, baudrate=1000000
 )
@@ -96,8 +94,6 @@ palette[0] = BACKGROUND_COLOR
 
 t = displayio.TileGrid(background_bitmap, pixel_shader=palette)
 tile_grid.append(t)
-
-
 
 try:
     i2c = board.I2C()
