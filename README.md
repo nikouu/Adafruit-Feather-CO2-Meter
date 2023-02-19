@@ -61,7 +61,7 @@ And for a preview of other CO2 ratings with expert photography:
 
 ![](images/otherstatuses.jpg)
 
-## Fun power efficiency Improvements
+## Fun power efficiency improvements
 
 After finishing version 1.0, it was time to begin working on improvements for the power consumption. Having worked a little bit with [Raspberry Pi Zero 2 W boards](https://www.nikouusitalo.com/blog/writing-a-net-music-discord-bot-for-a-raspberry-pi-zero-2-w-brotherman-bill/) and looking at power usage, I figured this microcontroller without a proper OS must get a lot out of the 400mAh battery... But it didn't.
 
